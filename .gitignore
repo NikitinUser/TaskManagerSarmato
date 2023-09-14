@@ -1,0 +1,12 @@
+#docker
+/docker/mysql/data
+/docker/.env
+
+#app
+/app/vendor
+/app/.env
+
+#ide
+/.idea
+/.vscode
+.DS_Store
