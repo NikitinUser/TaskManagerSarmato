@@ -59,23 +59,21 @@ class TaskService
 
     /**
      * @var int $userId
-     * @var int $taskId
+     * @var array $taskData
      * 
      * @return Task
      */
-    public function updateTask(int $userId, int $taskData): Task
+    public function updateTask(int $userId, array $taskData): Task
     {
-        $taskId = 1;
-        $task = $this->getUserTask($userId, $taskId);
+        $task = $this->getUserTask($userId, $taskData["id"]);
 
         if (is_null($task)) {
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        // конвертер?
-        $task->setTitle($taskData["title"] ?: $task->getTitle())
-            ->setDescription($taskData["description"] ?: $task->getTitle())
-            ->setPlaneCompliteDate($taskData["description"] ?: $task->getTitle())
+        $task->setTitle($taskData["title"])
+            ->setDescription($taskData["description"])
+            ->setPlaneCompliteDate($taskData["planeCompliteDate"])
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);
