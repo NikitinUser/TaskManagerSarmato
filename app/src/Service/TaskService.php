@@ -48,21 +48,12 @@ class TaskService
     }
 
     /**
-     * @var int $userId
-     * @var array $taskData
+     * @var Task $task
      * 
      * @return Task
      */
-    public function createTask(int $userId, array $taskData): Task
+    public function createTask(Task $task): Task
     {
-        // фабрика?
-        $task = new Task();
-        $task->setUserId($userId)
-            ->setTitle($taskData["title"])
-            ->setDescription($taskData["description"])
-            ->setPlaneCompliteDate($taskData["description"])
-            ->setCreatedAt(time());
-
         return $this->taskRepository->create($task);
     }
 
