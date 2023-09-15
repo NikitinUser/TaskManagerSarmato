@@ -23,10 +23,10 @@ class Task
     private string $description;
 
     #[ORM\Column]
-    private int $created_at;
+    private int $createdAt;
 
     #[ORM\Column(nullable: true)]
-    private ?int $updated_at = null;
+    private ?int $updatedAt = null;
 
     #[ORM\Column]
     private int $planeCompliteDate;
@@ -68,24 +68,24 @@ class Task
 
     public function getCreatedAt(): int
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(int $created_at): static
+    public function setCreatedAt(int $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?int
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?int $updated_at): static
+    public function setUpdatedAt(?int $updatedAt): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
