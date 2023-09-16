@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+//use Symfony\Component\Security\Core\Security;
 use App\Service\TaskService;
 use App\DTO\HttpResponseDTO;
 use App\Mapper\TaskMapper;
@@ -20,7 +21,9 @@ class UserTaskController extends AbstractController
     {
         $this->taskService = $taskService;
         $this->httpResponseDTO = $httpResponseDTO;
-        $this->userId = 1;
+
+        $user = $this->getUser();
+        $this->userId = $user->getUserIdentifier();
     }
 
     #[Route('/api/task/all', name: 'api.task.all', methods: ['GET'])]
@@ -31,7 +34,6 @@ class UserTaskController extends AbstractController
 
             $this->httpResponseDTO->data = TaskMapper::mapFromArrayEntities($tasks);
         } catch (\Throwable $t) {
-            // log
             $this->httpResponseDTO->error = $t->getMessage();
         }
         return $this->json($this->httpResponseDTO);
@@ -45,7 +47,6 @@ class UserTaskController extends AbstractController
 
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            // log
             $this->httpResponseDTO->error = $t->getMessage();
         }
         return $this->json($this->httpResponseDTO);
@@ -58,11 +59,11 @@ class UserTaskController extends AbstractController
 
         try {
             $task = TaskFactory::createFromArray($this->userId, $taskData);
+            
             $task = $this->taskService->createTask($task);
 
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            // log
             $this->httpResponseDTO->error = $t->getMessage();
         }
 
@@ -79,7 +80,6 @@ class UserTaskController extends AbstractController
 
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            // log
             $this->httpResponseDTO->error = $t->getMessage();
         }
 
@@ -96,7 +96,6 @@ class UserTaskController extends AbstractController
 
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            // log
             $this->httpResponseDTO->error = $t->getMessage();
         }
 
@@ -111,7 +110,6 @@ class UserTaskController extends AbstractController
         try {
             $this->taskService->deleteTask($this->userId, $taskId);
         } catch (\Throwable $t) {
-            // log
             $this->httpResponseDTO->error = $t->getMessage();
         }
 
