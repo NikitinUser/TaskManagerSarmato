@@ -22,7 +22,8 @@ class AppFixtures extends Fixture
             $user->setLogin($login)
                 ->setPassword($password);
 
-            $repository->create($user);
+            $manager->persist($user);
+            $manager->flush(); 
         }
     }
 }
