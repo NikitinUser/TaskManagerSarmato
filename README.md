@@ -2,7 +2,7 @@
 Тестовое задание в компанию Сармато
 
 <details>
-    <summary># Задание</summary>
+    <summary><h5>Задание</h5></summary>
 
         Разработайте RESTful API для управления задачами (таск-менеджер). Используйте фреймворк Symfony 6 и базу данных MySQL.
 
@@ -35,7 +35,10 @@
 </details>
 
 <details>
-    <summary># Swagger</summary>
+    <summary><h5>Swagger</h5></summary>
 </details>
 
-# Запуск проекта в docker
+
+<details>
+    <summary><h5>Запуск проекта в docker</h5></summary>
+</details>
