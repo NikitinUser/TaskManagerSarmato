@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\Task;
 use App\Repository\TaskRepository;
-use App\Validation\ValidatedTaskInterface;
+use App\Factory\TaskFactory;
 
 class TaskService
 {
@@ -24,7 +24,6 @@ class TaskService
      */
     public function getAllTasksByUserId(int $userId): array
     {
-        // todo sort, pagination
         return $this->taskRepository->findBy(
             [
                 "userId" => $userId
@@ -49,12 +48,15 @@ class TaskService
     }
 
     /**
-     * @var Task $task
+     * @var int $userId
+     * @var array $taskData
      * 
      * @return Task
      */
-    public function createTask(Task $task): Task
+    public function createTask(int $userId, array $taskData): Task
     {
+        $task = TaskFactory::createFromArray($userId, $taskData);
+
         return $this->taskRepository->create($task);
     }
 
@@ -64,17 +66,17 @@ class TaskService
      * 
      * @return Task
      */
-    public function updateTask(int $userId, ValidatedTaskInterface $taskValidated): Task
+    public function updateTask(int $userId, array $taskData): Task
     {
-        $task = $this->getUserTask($userId, $taskValidated->id);
+        $task = $this->getUserTask($userId, $taskData["id"]);
 
         if (is_null($task)) {
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        $task->setTitle($taskValidated->title)
-            ->setDescription($taskValidated->description)
-            ->setPlaneCompliteDate($taskValidated->planeCompliteDate)
+        $task->setTitle($taskData["title"])
+            ->setDescription($taskData["title"])
+            ->setPlaneCompleteDate($taskData["planeCompleteDate"])
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);
@@ -94,7 +96,7 @@ class TaskService
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        $task->setStatus(Task::TASK_DONE)
+        $task->setIsComplete(true)
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);

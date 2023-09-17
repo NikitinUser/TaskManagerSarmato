@@ -12,8 +12,12 @@ class TaskMapper
      * 
      * @return TaskDTO
      */
-    public static function mapFromEntity(Task $task): TaskDTO
+    public static function mapFromEntity(?Task $task): ?TaskDTO
     {
+        if (is_null($task)) {
+            return null;
+        }
+
         $dto = new TaskDTO();
 
         $dto->id = $task->getId();
@@ -21,8 +25,8 @@ class TaskMapper
         $dto->description = $task->getDescription();
         $dto->createdAt = $task->getCreatedAt();
         $dto->updatedAt = $task->getUpdatedAt();
-        $dto->planeCompliteDate = $task->getPlaneCompliteDate();
-        $dto->status = $task->getStatus();
+        $dto->planeCompleteDate = $task->getPlaneCompleteDate();
+        $dto->isComplete = $task->getIsComplete();
         $dto->userId = $task->getUserId();
 
         return $dto;

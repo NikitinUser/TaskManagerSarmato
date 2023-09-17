@@ -14,7 +14,7 @@ USER www-data
 EXPOSE 9000
 CMD ["php-fpm"]
 
-RUN composer install
-RUN php bin/console doctrine:migrations:migrate
-RUN php bin/console doctrine:fixtures:load
-RUN php bin/console lexik:jwt:generate-keypair
+#RUN composer install
+#RUN php bin/console doctrine:migrations:migrate
+#RUN php bin/console doctrine:fixtures:load
+#RUN php bin/console lexik:jwt:generate-keypair
