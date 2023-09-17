@@ -35,7 +35,13 @@ Test task to the Sarmato company
 </details>
 
 <details>
-    <summary><h3>Swagger</h3></summary>
+    <summary><h3>API</h3></summary>
+
+<a href="/swagger.json">swagger json</a>
+<a href="/swagger.yaml">swagger yaml</a>
+
+    
+
 </details>
 
 
