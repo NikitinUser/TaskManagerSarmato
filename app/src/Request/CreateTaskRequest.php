@@ -15,6 +15,13 @@ class CreateTaskRequest
         $this->validator = $validator;
     }
 
+    /**
+     * @var array $data - данные которые нужно отвалидировать
+     * 
+     * @return array - возвращает входные данные в случае успеха
+     * 
+     * @throws BadRequestHttpException
+     */
     public function validate(array $data): array
     {
         $validateResult = $this->validator->validate($data, $this->getConstraint());
