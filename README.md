@@ -40,7 +40,14 @@ Test task to the Sarmato company
 
 
 <details>
-    <summary><h3>Запуск проекта в docker</h3></summary>
+    <summary><h3>Run project in Docker</h3></summary>
 
-    1 git clone https://github.com/NikitinUser/TaskManagerSarmato.git
+    <ul>
+        <li>git clone https://github.com/NikitinUser/TaskManagerSarmato.git</li>
+        <li>cd TaskManagerSarmato/docker</li>
+        <li>run and login Docker</li>
+        <li>sudo docker compose up --build</li>
+    </ul>
+    
+
 </details>
