@@ -76,9 +76,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
-                      "nullable": true
+                      "nullable": true,
+                      "example": "text error"
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     },
                     "data": {
                       "type": "array",
@@ -112,14 +117,14 @@
                             "description": "The date of the last update of the task (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "planeCompliteDate": {
+                          "planeCompleteDate": {
                             "type": "integer",
                             "description": "Planned task completion date (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "status": {
-                            "type": "integer",
-                            "description": "Статус задачи (0 - в процессе, 1 - завершена)",
+                          "isComplete": {
+                            "type": "boolean",
+                            "description": "Task status (false - in progress, true - completed)",
                             "example": 0
                           },
                           "userId": {
@@ -168,9 +173,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
-                      "nullable": true
+                      "nullable": true,
+                      "example": "text error"
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     },
                     "data": {
                       "type": "object",
@@ -202,14 +212,14 @@
                             "description": "The date of the last update of the task (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "planeCompliteDate": {
+                          "planeCompleteDate": {
                             "type": "integer",
                             "description": "Planned task completion date (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "status": {
-                            "type": "integer",
-                            "description": "Статус задачи (0 - в процессе, 1 - завершена)",
+                          "isComplete": {
+                            "type": "boolean",
+                            "description": "Task status (false - in progress, true - completed)",
                             "example": 0
                           },
                           "userId": {
@@ -231,7 +241,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -239,6 +249,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -255,7 +269,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -263,6 +277,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -295,7 +313,7 @@
                     "description": "Description task",
                     "example": "Description task"
                   },
-                  "planeCompliteDate": {
+                  "planeCompleteDate": {
                     "type": "integer",
                     "description": "Planned task completion date (in UNIX timestamp format)",
                     "example": 1700170901
@@ -313,9 +331,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
-                      "nullable": true
+                      "nullable": true,
+                      "example": "text error"
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     },
                     "data": {
                       "type": "object",
@@ -347,14 +370,14 @@
                             "description": "The date of the last update of the task (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "planeCompliteDate": {
+                          "planeCompleteDate": {
                             "type": "integer",
                             "description": "Planned task completion date (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "status": {
-                            "type": "integer",
-                            "description": "Статус задачи (0 - в процессе, 1 - завершена)",
+                          "isComplete": {
+                            "type": "boolean",
+                            "description": "Task status (false - in progress, true - completed)",
                             "example": 0
                           },
                           "userId": {
@@ -376,7 +399,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -384,6 +407,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -400,7 +427,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -408,6 +435,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -445,7 +476,7 @@
                     "description": "Description task",
                     "example": "Description task"
                   },
-                  "planeCompliteDate": {
+                  "planeCompleteDate": {
                     "type": "integer",
                     "description": "Planned task completion date (in UNIX timestamp format)",
                     "example": 1700170901
@@ -463,9 +494,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
-                      "nullable": true
+                      "nullable": true,
+                      "example": "text error"
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     },
                     "data": {
                       "type": "object",
@@ -497,14 +533,14 @@
                             "description": "The date of the last update of the task (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "planeCompliteDate": {
+                          "planeCompleteDate": {
                             "type": "integer",
                             "description": "Planned task completion date (in UNIX timestamp format)",
                             "example": 1700170901
                           },
-                          "status": {
-                            "type": "integer",
-                            "description": "Статус задачи (0 - в процессе, 1 - завершена)",
+                          "isComplete": {
+                            "type": "boolean",
+                            "description": "Task status (false - in progress, true - completed)",
                             "example": 0
                           },
                           "userId": {
@@ -526,7 +562,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -534,6 +570,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -550,7 +590,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -558,6 +598,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -592,13 +636,18 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
-                      "nullable": true
+                      "nullable": true,
+                      "example": "text error"
                     },
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -612,7 +661,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -620,6 +669,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -636,7 +689,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -644,6 +697,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -686,9 +743,14 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
-                      "nullable": true
+                      "nullable": true,
+                      "example": "text error"
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     },
                     "data": {
                       "type": "object",
@@ -720,14 +782,14 @@
                           "description": "The date of the last update of the task (in UNIX timestamp format)",
                           "example": 1700170901
                         },
-                        "planeCompliteDate": {
+                        "planeCompleteDate": {
                           "type": "integer",
                           "description": "Planned task completion date (in UNIX timestamp format)",
                           "example": 1700170901
                         },
-                        "status": {
-                          "type": "integer",
-                          "description": "Статус задачи (0 - в процессе, 1 - завершена)",
+                        "isComplete": {
+                          "type": "boolean",
+                          "description": "Task status (false - in progress, true - completed)",
                           "example": 0
                         },
                         "userId": {
@@ -749,7 +811,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -757,6 +819,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
@@ -773,7 +839,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "error": {
+                    "message": {
                       "type": "string",
                       "nullable": true,
                       "example": "text error"
@@ -781,6 +847,10 @@
                     "data": {
                       "type": "object",
                       "nullable": true
+                    },
+                    "responseCode": {
+                      "type": "integer",
+                      "example": 200
                     }
                   }
                 }
