@@ -146,7 +146,7 @@ class UserTaskController extends AbstractController
     #[Route('/api/task', name: 'api.task.delete', methods: ['DELETE'])]
     public function actionDeleteTask(Request $request): Response
     {
-        $id = json_decode($request->getContent(), true)["id"];
+        $id = $request->query->get("id");
         //todo validation
         try {
             $userId = $this->getUser()?->getId();
