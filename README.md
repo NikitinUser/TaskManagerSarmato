@@ -44,11 +44,10 @@ Test task to the Sarmato company
     <a href="/swagger.yaml">swagger yaml</a>
 </div>
 
+
 host - http://127.0.0.1:7777
 
-## `/api/login_check` [POST]
-
-### Get token
+## Get token `/api/login_check` [POST]
 
 The `/api/login_check` method is used to authenticate the user. It allows you to verify user credentials and get an JWT token.
 
@@ -62,8 +61,8 @@ The `/api/login_check` method is used to authenticate the user. It allows you to
 
 - **Required:** True
 
-1. `email` (string, example: "admin@mail.ru")
-2. `password` (string, example: 12345)
+1. `email` (string)
+2. `password` (string)
 
 Example:
 
@@ -74,13 +73,11 @@ Example:
 }
 ```
 
-### HTTP-ответы
+### Responses
 
-#### Success (200 OK)
+#### Success (200)
 
 - **Content type:** application/json
-
-При успешной аутентификации пользователя возвращается токен аутентификации.
 
 Example:
 
@@ -90,9 +87,369 @@ Example:
 }
 ```
 
+## Get all user tasks `/api/task/all` [GET]
+
+### HTTP-запрос
+
+- **Method:** GET
+- **Required authentication:** True
+- **Content type:** application/json
+- **Authorization:** Bearer Token
+
+### Responses
+
+1. `error` (string or null)
+2. `data` (array or null)
+
+#### Success (200)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": null,
+    "data": [
+        {
+            "id": 1,
+            "title": "test1",
+            "description": "test1",
+            "createdAt": 1694921959,
+            "updatedAt": null,
+            "planeCompliteDate": 1700170901,
+            "status": 0,
+            "userId": 1
+        }
+    ]
+}
+```
+
+#### BAD REQUEST (400), SERVER ERROR (500)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": "text",
+    "data": null
+}
+```
+
+
+## Get task by id `/api/task` [GET]
+
+### HTTP-запрос
+
+- **Method:** GET
+- **Required authentication:** True
+- **Content type:** application/json
+- **Authorization:** Bearer Token
+
+### URI Params
+
+- **Required:** True
+
+1. `id` - id of task
+
+### Responses
+
+1. `error` (string or null)
+2. `data` (object or null)
+
+#### Success (200)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": null,
+    "data":
+        {
+            "id": 1,
+            "title": "test1",
+            "description": "test1",
+            "createdAt": 1694921959,
+            "updatedAt": null,
+            "planeCompliteDate": 1700170901,
+            "status": 0,
+            "userId": 1
+        }
+}
+```
+
+#### BAD REQUEST (400), SERVER ERROR (500)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": "text",
+    "data": null
+}
+```
+
+
+## Create task `/api/task` [POST]
+
+### HTTP-запрос
+
+- **Method:** POST
+- **Required authentication:** True
+- **Content type:** application/json
+- **Authorization:** Bearer Token
+
+### Request body
+
+- **Required:** True
+
+1. `title` (string, max: 255, min: 1)
+2. `description` (string, max: 2500, min: 1)
+3. `planeCompliteDate` (int, max: 10, min: 10) - Planned task completion date (in UNIX timestamp format)
+
+Example:
+
+```json
+{
+    "title": "test1",
+    "description": "test1",
+    "planeCompliteDate": 1700170901
+}
+```
+
+### Responses
+
+1. `error` (string or null)
+2. `data` (object or null)
+
+#### Success (200)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": null,
+    "data":
+        {
+            "id": 1,
+            "title": "test1",
+            "description": "test1",
+            "createdAt": 1694921959,
+            "updatedAt": null,
+            "planeCompliteDate": 1700170901,
+            "status": 0,
+            "userId": 1
+        }
+}
+```
+
+#### BAD REQUEST (400), SERVER ERROR (500)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": "text",
+    "data": null
+}
+```
+
+
+## Update task `/api/task` [PATCH]
+
+### HTTP-запрос
+
+- **Method:** PATCH
+- **Required authentication:** True
+- **Content type:** application/json
+- **Authorization:** Bearer Token
+
+### Request body
+
+- **Required:** True
+
+1. `id` (int, min: 1)
+2. `title` (string, max: 255, min: 1)
+3. `description` (string, max: 2500, min: 1)
+4. `planeCompliteDate` (int, max: 10, min: 10) - Planned task completion date (in UNIX timestamp format)
+
+Example:
+
+```json
+{
+    "id": 2,
+    "title": "test2",
+    "description": "test2 test3 test4",
+    "planeCompliteDate": 1700170902
+}
+```
+
+### Responses
+
+1. `error` (string or null)
+2. `data` (object or null)
+
+#### Success (200)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": null,
+    "data":
+        {
+            "id": 1,
+            "title": "test1",
+            "description": "test1",
+            "createdAt": 1694921959,
+            "updatedAt": null,
+            "planeCompliteDate": 1700170901,
+            "status": 0,
+            "userId": 1
+        }
+}
+```
+
+#### BAD REQUEST (400), SERVER ERROR (500)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": "text",
+    "data": null
+}
+```
+
+## Done task `/api/task/done` [PATCH]
+
+### HTTP-запрос
+
+- **Method:** PATCH
+- **Required authentication:** True
+- **Content type:** application/json
+- **Authorization:** Bearer Token
+
+### Request body
+
+- **Required:** True
+
+1. `id` (int, min: 1)
+
+Example:
+
+```json
+{
+    "id": 2
+}
+```
+
+### Responses
+
+1. `error` (string or null)
+2. `data` (object or null)
+
+#### Success (200)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": null,
+    "data":
+        {
+            "id": 1,
+            "title": "test1",
+            "description": "test1",
+            "createdAt": 1694921959,
+            "updatedAt": null,
+            "planeCompliteDate": 1700170901,
+            "status": 1,
+            "userId": 1
+        }
+}
+```
+
+#### BAD REQUEST (400), SERVER ERROR (500)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": "text",
+    "data": null
+}
+```
+
+
+## Delete task `/api/task` [DELETE]
+
+### HTTP-запрос
+
+- **Method:** DELETE
+- **Required authentication:** True
+- **Content type:** application/json
+- **Authorization:** Bearer Token
+
+### URI Params
+
+- **Required:** True
+
+1. `id` - id of task
+
+### Responses
+
+1. `error` (string or null)
+2. `data` (object or null)
+
+#### Success (200)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": null,
+    "data": null
+}
+```
+
+#### BAD REQUEST (400), SERVER ERROR (500)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "error": "text",
+    "data": null
+}
+```
+
+
+##
 
 </details>
-
 
 <details>
     <summary><h3>Run project in Docker</h3></summary>
