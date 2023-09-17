@@ -56,6 +56,9 @@ Test task to the Sarmato company
 <div>
     <a href="/swagger.yaml">swagger yaml</a>
 </div>
+<div>
+    <a href="/TaskManagerSarmato.postman_collection.json">postman collection</a>
+</div>
 
 
 host - http://127.0.0.1:7777
