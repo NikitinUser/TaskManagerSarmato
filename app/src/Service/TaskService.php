@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Task;
 use App\Repository\TaskRepository;
+use App\Validation\ValidatedTaskInterface;
 
 class TaskService
 {
@@ -42,7 +43,7 @@ class TaskService
         return $this->taskRepository->findOneBy(
             [
                 "userId" => $userId,
-                "taskId" => $taskId
+                "id" => $taskId
             ]
         );
     }
@@ -63,17 +64,17 @@ class TaskService
      * 
      * @return Task
      */
-    public function updateTask(int $userId, array $taskData): Task
+    public function updateTask(int $userId, ValidatedTaskInterface $taskValidated): Task
     {
-        $task = $this->getUserTask($userId, $taskData["id"]);
+        $task = $this->getUserTask($userId, $taskValidated->id);
 
         if (is_null($task)) {
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        $task->setTitle($taskData["title"])
-            ->setDescription($taskData["description"])
-            ->setPlaneCompliteDate($taskData["planeCompliteDate"])
+        $task->setTitle($taskValidated->title)
+            ->setDescription($taskValidated->description)
+            ->setPlaneCompliteDate($taskValidated->planeCompliteDate)
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);
@@ -113,6 +114,6 @@ class TaskService
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        $this->taskRepository->dalete($task);
+        $this->taskRepository->delete($task);
     }
 }

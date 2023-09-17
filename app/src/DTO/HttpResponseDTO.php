@@ -6,6 +6,6 @@ use App\DTO\Interface\ResponseDataInterface;
 
 class HttpResponseDTO
 {
-    public ?string $error = null;
-    public ?ResponseDataInterface $data = null;
+    public null | string | array $error = null;
+    public null | array | ResponseDataInterface $data = null;
 }
