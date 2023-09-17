@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230915112233 extends AbstractMigration
+final class Version20230917000606 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -22,14 +22,13 @@ final class Version20230915112233 extends AbstractMigration
         $this->addSql('CREATE TABLE IF NOT EXISTS user
             (
                 id INT AUTO_INCREMENT NOT NULL,
-                login VARCHAR(255) NOT NULL,
+                email VARCHAR(180) NOT NULL,
+                roles JSON NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                PRIMARY KEY(id),
-                UNIQUE KEY IDX_LOGIN (login)
-            )
-            DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB'
-        );
-
+                UNIQUE INDEX UNIQ_8D93D649E7927C74 (email),
+                PRIMARY KEY(id)
+            ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        
         $this->addSql('CREATE TABLE IF NOT EXISTS task
             (
                 id INT AUTO_INCREMENT NOT NULL,
@@ -42,9 +41,7 @@ final class Version20230915112233 extends AbstractMigration
                 user_id INT NOT NULL,
                 PRIMARY KEY(id),
                 FOREIGN KEY (user_id)  REFERENCES user (id) ON DELETE CASCADE
-            )
-            DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB'
-        );
+            ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         
         $this->addSql('CREATE TABLE IF NOT EXISTS messenger_messages
             (
@@ -59,15 +56,13 @@ final class Version20230915112233 extends AbstractMigration
                 INDEX IDX_75EA56E0E3BD61CE (available_at),
                 INDEX IDX_75EA56E016BA31DB (delivered_at),
                 PRIMARY KEY(id)
-            )
-            DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB'
-        );
+            ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema): void
     {
         $this->addSql('DROP TABLE IF EXISTS task');
         $this->addSql('DROP TABLE IF EXISTS user');
-        $this->addSql('DROP TABLE messenger_messages');
+        $this->addSql('DROP TABLE IF EXISTS messenger_messages');
     }
 }

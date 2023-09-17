@@ -12,14 +12,15 @@ class AppFixtures extends Fixture
     {
         $repository = $manager->getRepository(User::class);
 
-        $login = 'admin';
+        $email = 'admin@mail.ru';
         $password = '$2y$13$aGpyKVf27OBKRym4baLg2OCsrtBV8KM2M7jkTubk5XFhOAV6yN6Cm'; // 12345
 
-        $user = $repository->findOneByLogin($login);
+        $user = $repository->findOneByEmail($email);
 
         if (empty($user)) {
             $user = new User();
-            $user->setLogin($login)
+            $user->setEmail($email)
+                ->setRoles([])
                 ->setPassword($password);
 
             $manager->persist($user);
