@@ -45,6 +45,30 @@ Test task to the Sarmato company
 
     4 sudo docker compose up --build
 
+    5 cd ../app
+
+    6 composer install
+
+    if you have docker desktop:
+
+    7 php bin/console doctrine:migrations:migrate (docker desktop)
+
+    8 php bin/console doctrine:fixtures:load (docker desktop)
+
+    9 php bin/console lexik:jwt:generate-keypair (docker desktop)
+
+    else:
+
+    7 cd ../docker
+
+    8 sudo docker exec -itu root tms_php bash
+
+    9 php bin/console doctrine:migrations:migrate (docker desktop)
+
+    10 php bin/console doctrine:fixtures:load (docker desktop)
+
+    11 php bin/console lexik:jwt:generate-keypair (docker desktop)
+
 </details>
 
 <details>
