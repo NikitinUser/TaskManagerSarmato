@@ -76,7 +76,7 @@ class TaskService
 
         $task->setTitle($taskData["title"])
             ->setDescription($taskData["title"])
-            ->setPlaneCompliteDate($taskData["planeCompliteDate"])
+            ->setPlaneCompleteDate($taskData["planeCompleteDate"])
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);
@@ -96,7 +96,7 @@ class TaskService
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        $task->setIsComplite(true)
+        $task->setIsComplete(true)
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);

@@ -61,7 +61,7 @@ class CreateTaskRequest
                     new Assert\Length(["min" => 1, "max" => 2500]),
                     new Assert\Regex(["pattern" => '/^[A-Za-z А-Яа-яЁё 0-9]+$/u'])
                 ]),
-                'planeCompliteDate' => new Assert\Required([
+                'planeCompleteDate' => new Assert\Required([
                     new Assert\NotBlank(),
                     new Assert\Type(["type" => "integer"]),
                     new Assert\Length(["min" => 10, "max" => 10])

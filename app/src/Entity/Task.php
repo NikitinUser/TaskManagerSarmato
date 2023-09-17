@@ -26,10 +26,10 @@ class Task
     private ?int $updatedAt = null;
 
     #[ORM\Column]
-    private int $planeCompliteDate;
+    private int $planeCompleteDate;
 
     #[ORM\Column]
-    private bool $isComplite = false;
+    private bool $isComplete = false;
 
     #[ORM\Column]
     private int $userId;
@@ -87,26 +87,26 @@ class Task
         return $this;
     }
 
-    public function getPlaneCompliteDate(): ?int
+    public function getPlaneCompleteDate(): ?int
     {
-        return $this->planeCompliteDate;
+        return $this->planeCompleteDate;
     }
 
-    public function setPlaneCompliteDate(?int $planeCompliteDate): static
+    public function setPlaneCompleteDate(?int $planeCompleteDate): static
     {
-        $this->planeCompliteDate = $planeCompliteDate;
+        $this->planeCompleteDate = $planeCompleteDate;
 
         return $this;
     }
 
-    public function getIsComplite(): bool
+    public function getIsComplete(): bool
     {
-        return $this->isComplite;
+        return $this->isComplete;
     }
 
-    public function setIsComplite(bool $isComplite): static
+    public function setIsComplete(bool $isComplete): static
     {
-        $this->isComplite = $isComplite;
+        $this->isComplete = $isComplete;
 
         return $this;
     }

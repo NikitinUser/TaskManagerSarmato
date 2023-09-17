@@ -19,7 +19,7 @@ class TaskFactory
         return $task->setUserId($userId)
             ->setTitle($taskData["title"])
             ->setDescription($taskData["description"])
-            ->setPlaneCompliteDate($taskData["planeCompliteDate"])
+            ->setPlaneCompleteDate($taskData["planeCompleteDate"])
             ->setCreatedAt(time());
     }
 }

@@ -36,8 +36,8 @@ final class Version20230917000606 extends AbstractMigration
                 description VARCHAR(5000) NOT NULL,
                 created_at INT NOT NULL,
                 updated_at INT DEFAULT NULL,
-                plane_complite_date INT NOT NULL,
-                is_complite BOOLEAN NOT NULL,
+                plane_complete_date INT NOT NULL,
+                is_complete BOOLEAN NOT NULL,
                 user_id INT NOT NULL,
                 PRIMARY KEY(id),
                 FOREIGN KEY (user_id)  REFERENCES user (id) ON DELETE CASCADE

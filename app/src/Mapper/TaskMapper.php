@@ -25,8 +25,8 @@ class TaskMapper
         $dto->description = $task->getDescription();
         $dto->createdAt = $task->getCreatedAt();
         $dto->updatedAt = $task->getUpdatedAt();
-        $dto->planeCompliteDate = $task->getPlaneCompliteDate();
-        $dto->isComplite = $task->getIsComplite();
+        $dto->planeCompleteDate = $task->getPlaneCompleteDate();
+        $dto->isComplete = $task->getIsComplete();
         $dto->userId = $task->getUserId();
 
         return $dto;
