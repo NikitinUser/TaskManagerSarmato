@@ -51,11 +51,11 @@ Test task to the Sarmato company
 
     if you have docker desktop:
 
-    7 php bin/console doctrine:migrations:migrate (docker desktop)
+    7 php bin/console doctrine:migrations:migrate (docker desktop in tms_php)
 
-    8 php bin/console doctrine:fixtures:load (docker desktop)
+    8 php bin/console doctrine:fixtures:load (docker desktop in tms_php)
 
-    9 php bin/console lexik:jwt:generate-keypair (docker desktop)
+    9 php bin/console lexik:jwt:generate-keypair (docker desktop in tms_php)
 
     else:
 
@@ -63,11 +63,11 @@ Test task to the Sarmato company
 
     8 sudo docker exec -itu root tms_php bash
 
-    9 php bin/console doctrine:migrations:migrate (docker desktop)
+    9 php bin/console doctrine:migrations:migrate
 
-    10 php bin/console doctrine:fixtures:load (docker desktop)
+    10 php bin/console doctrine:fixtures:load
 
-    11 php bin/console lexik:jwt:generate-keypair (docker desktop)
+    11 php bin/console lexik:jwt:generate-keypair
 
 </details>
 
