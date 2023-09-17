@@ -11,22 +11,18 @@ use App\DTO\HttpResponseDTO;
 use App\Mapper\TaskMapper;
 use App\Factory\TaskFactory;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\Serializer\SerializerInterface;
-use App\Validation\CreateTaskValidated;
-use App\Validation\UpdateTaskValidated;
+use App\Request\CreateTaskRequest;
+use App\Request\UpdateTaskRequest;
 
 class UserTaskController extends AbstractController
 {
     private TaskService $taskService;
     private HttpResponseDTO $httpResponseDTO;
-    private SerializerInterface $serializer;
-    private int $userId;
 
-    public function __construct(TaskService $taskService, HttpResponseDTO $httpResponseDTO, SerializerInterface $serializer)
+    public function __construct(TaskService $taskService, HttpResponseDTO $httpResponseDTO)
     {
         $this->taskService = $taskService;
         $this->httpResponseDTO = $httpResponseDTO;
-        $this->serializer = $serializer;
     }
 
     #[Route('/api/task/all', name: 'api.task.all', methods: ['GET'])]
@@ -34,14 +30,14 @@ class UserTaskController extends AbstractController
     {
         try {
             $userId = $this->getUser()?->getId();
-
             $tasks = $this->taskService->getAllTasksByUserId($userId);
-
             $this->httpResponseDTO->data = TaskMapper::mapFromArrayEntities($tasks);
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
-        return $this->json($this->httpResponseDTO);
+
+        return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
     }
 
     #[Route('/api/task', name: 'api.task.one', methods: ['GET'])]
@@ -51,78 +47,67 @@ class UserTaskController extends AbstractController
         //todo validation
         try {
             $userId = $this->getUser()?->getId();
-
             $task = $this->taskService->getUserTask($userId, $id);
-
             if (!is_null($task)) {
                 $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
             }
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
-        return $this->json($this->httpResponseDTO);
+
+        return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
     }
 
     #[Route('/api/task', name: 'api.task.create', methods: ['POST'])]
     public function actionCreateTask(Request $request, ValidatorInterface $validator): Response
     {
-        $taskData = $this->serializer->deserialize($request->getContent(), CreateTaskValidated::class, 'json');
-        $validateResult = $validator->validate($taskData);
-
-        if (count($validateResult)) {
-            $errors = [];
-            foreach ($validateResult as $error) {
-                $field = $error->getPropertyPath();
-                $errors[$field] = $error->getMessage();
-            }
-
-            $this->httpResponseDTO->error = $errors;
-            return $this->json($this->httpResponseDTO, 400);
+        try {
+            $taskData = json_decode($request->getContent(), true);
+            $taskValidation = new CreateTaskRequest($validator);
+            $taskValidation->validate($taskData);
+        } catch(\Throwable $t) {
+            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_BAD_REQUEST;
+            return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
         }
 
         try {
             $userId = $this->getUser()?->getId();
-
-            $task = TaskFactory::createFromValidated($userId, $taskData);
-            
+            $task = TaskFactory::createFromArray($userId, $taskData);
             $task = $this->taskService->createTask($task);
-
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
-        return $this->json($this->httpResponseDTO);
+        return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
     }
 
     #[Route('/api/task', name: 'api.task.update', methods: ['PATCH'])]
     public function actionUpdateTask(Request $request, ValidatorInterface $validator): Response
     {
-        $taskData = $this->serializer->deserialize($request->getContent(), UpdateTaskValidated::class, 'json');
-        $validateResult = $validator->validate($taskData);
-
-        if (count($validateResult)) {
-            $errors = [];
-            foreach ($validateResult as $error) {
-                $field = $error->getPropertyPath();
-                $errors[$field] = $error->getMessage();
-            }
-
-            $this->httpResponseDTO->error = $errors;
-            return $this->json($this->httpResponseDTO, 400);
+        try {
+            $taskData = json_decode($request->getContent(), true);
+            $taskValidation = new UpdateTaskRequest($validator);
+            $taskValidation->validate($taskData);
+        } catch(\Throwable $t) {
+            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_BAD_REQUEST;
+            return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
         }
 
         try {
             $userId = $this->getUser()?->getId();
-
             $task = $this->taskService->updateTask($userId, $taskData);
-
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
-        return $this->json($this->httpResponseDTO);
+        return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
     }
 
     #[Route('/api/task/done', name: 'api.task.done', methods: ['PATCH'])]
@@ -132,15 +117,14 @@ class UserTaskController extends AbstractController
         //todo validation
         try {
             $userId = $this->getUser()?->getId();
-
             $task = $this->taskService->doneTask($userId, $id);
-
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
-        return $this->json($this->httpResponseDTO);
+        return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
     }
 
     #[Route('/api/task', name: 'api.task.delete', methods: ['DELETE'])]
@@ -150,12 +134,12 @@ class UserTaskController extends AbstractController
         //todo validation
         try {
             $userId = $this->getUser()?->getId();
-
             $this->taskService->deleteTask($userId, $id);
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
-        return $this->json($this->httpResponseDTO);
+        return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
     }
 }

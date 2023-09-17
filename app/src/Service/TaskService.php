@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Task;
 use App\Repository\TaskRepository;
-use App\Validation\ValidatedTaskInterface;
 
 class TaskService
 {
@@ -64,17 +63,17 @@ class TaskService
      * 
      * @return Task
      */
-    public function updateTask(int $userId, ValidatedTaskInterface $taskValidated): Task
+    public function updateTask(int $userId, array $taskData): Task
     {
-        $task = $this->getUserTask($userId, $taskValidated->id);
+        $task = $this->getUserTask($userId, $taskData["id"]);
 
         if (is_null($task)) {
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        $task->setTitle($taskValidated->title)
-            ->setDescription($taskValidated->description)
-            ->setPlaneCompliteDate($taskValidated->planeCompliteDate)
+        $task->setTitle($taskData["title"])
+            ->setDescription($taskData["title"])
+            ->setPlaneCompliteDate($taskData["planeCompliteDate"])
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);

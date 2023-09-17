@@ -3,7 +3,6 @@
 namespace App\Factory;
 
 use App\Entity\Task;
-use App\Validation\ValidatedTaskInterface;
 
 class TaskFactory
 {
@@ -21,17 +20,6 @@ class TaskFactory
             ->setTitle($taskData["title"])
             ->setDescription($taskData["description"])
             ->setPlaneCompliteDate($taskData["planeCompliteDate"])
-            ->setCreatedAt(time());
-    }
-
-    public static function createFromValidated(int $userId, ValidatedTaskInterface $taskValidated)
-    {
-        $task = new Task();
-
-        return $task->setUserId($userId)
-            ->setTitle($taskValidated->title)
-            ->setDescription($taskValidated->description)
-            ->setPlaneCompliteDate($taskValidated->planeCompliteDate)
             ->setCreatedAt(time());
     }
 }
