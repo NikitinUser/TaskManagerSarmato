@@ -42,12 +42,12 @@ Test task to the Sarmato company
 <details>
     <summary><h3>Run project in Docker</h3></summary>
 
-    <ul>
-        <li>git clone https://github.com/NikitinUser/TaskManagerSarmato.git</li>
-        <li>cd TaskManagerSarmato/docker</li>
-        <li>run and login Docker</li>
-        <li>sudo docker compose up --build</li>
-    </ul>
-    
+    1 git clone https://github.com/NikitinUser/TaskManagerSarmato.git
+
+    2 cd TaskManagerSarmato/docker
+
+    3 run and login Docker
+
+    4 sudo docker compose up --build
 
 </details>
