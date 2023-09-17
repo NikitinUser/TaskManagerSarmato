@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Service\TaskService;
 use App\DTO\HttpResponseDTO;
 use App\Mapper\TaskMapper;
-use App\Factory\TaskFactory;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Request\CreateTaskRequest;
 use App\Request\UpdateTaskRequest;
@@ -43,14 +42,12 @@ class UserTaskController extends AbstractController
     #[Route('/api/task', name: 'api.task.one', methods: ['GET'])]
     public function actionGetTask(Request $request): Response
     {
-        $id = $request->query->get("id");
-        //todo validation
+        $id = (int)$request->query->get("id");
+
         try {
             $userId = $this->getUser()?->getId();
             $task = $this->taskService->getUserTask($userId, $id);
-            if (!is_null($task)) {
-                $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
-            }
+            $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
@@ -74,8 +71,7 @@ class UserTaskController extends AbstractController
 
         try {
             $userId = $this->getUser()?->getId();
-            $task = TaskFactory::createFromArray($userId, $taskData);
-            $task = $this->taskService->createTask($task);
+            $task = $this->taskService->createTask($userId, $taskData);
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
             $this->httpResponseDTO->error = $t->getMessage();
@@ -113,8 +109,15 @@ class UserTaskController extends AbstractController
     #[Route('/api/task/done', name: 'api.task.done', methods: ['PATCH'])]
     public function actionDoneTask(Request $request): Response
     {
-        $id = json_decode($request->getContent(), true)["id"];
-        //todo validation
+        try {
+            $jsonRequest = json_decode($request->getContent(), true);
+            $id = (int)$jsonRequest["id"];
+        } catch(\Throwable $t) {
+            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->responseCode = Response::HTTP_BAD_REQUEST;
+            return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
+        }
+
         try {
             $userId = $this->getUser()?->getId();
             $task = $this->taskService->doneTask($userId, $id);
@@ -130,8 +133,8 @@ class UserTaskController extends AbstractController
     #[Route('/api/task', name: 'api.task.delete', methods: ['DELETE'])]
     public function actionDeleteTask(Request $request): Response
     {
-        $id = $request->query->get("id");
-        //todo validation
+        $id = (int)$request->query->get("id");
+
         try {
             $userId = $this->getUser()?->getId();
             $this->taskService->deleteTask($userId, $id);

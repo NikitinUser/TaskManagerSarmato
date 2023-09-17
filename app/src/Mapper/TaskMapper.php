@@ -12,8 +12,12 @@ class TaskMapper
      * 
      * @return TaskDTO
      */
-    public static function mapFromEntity(Task $task): TaskDTO
+    public static function mapFromEntity(?Task $task): ?TaskDTO
     {
+        if (is_null($task)) {
+            return null;
+        }
+
         $dto = new TaskDTO();
 
         $dto->id = $task->getId();

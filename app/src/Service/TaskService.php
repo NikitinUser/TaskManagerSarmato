@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Task;
 use App\Repository\TaskRepository;
+use App\Factory\TaskFactory;
 
 class TaskService
 {
@@ -23,7 +24,6 @@ class TaskService
      */
     public function getAllTasksByUserId(int $userId): array
     {
-        // todo sort, pagination
         return $this->taskRepository->findBy(
             [
                 "userId" => $userId
@@ -48,12 +48,15 @@ class TaskService
     }
 
     /**
-     * @var Task $task
+     * @var int $userId
+     * @var array $taskData
      * 
      * @return Task
      */
-    public function createTask(Task $task): Task
+    public function createTask(int $userId, array $taskData): Task
     {
+        $task = TaskFactory::createFromArray($userId, $taskData);
+
         return $this->taskRepository->create($task);
     }
 
