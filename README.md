@@ -35,6 +35,19 @@ Test task to the Sarmato company
 </details>
 
 <details>
+    <summary><h3>Run project in Docker</h3></summary>
+
+    1 git clone https://github.com/NikitinUser/TaskManagerSarmato.git
+
+    2 cd TaskManagerSarmato/docker
+
+    3 run and login Docker
+
+    4 sudo docker compose up --build
+
+</details>
+
+<details>
     <summary><h3>API</h3></summary>
 
 <div>
@@ -448,18 +461,5 @@ Example:
 
 
 ##
-
-</details>
-
-<details>
-    <summary><h3>Run project in Docker</h3></summary>
-
-    1 git clone https://github.com/NikitinUser/TaskManagerSarmato.git
-
-    2 cd TaskManagerSarmato/docker
-
-    3 run and login Docker
-
-    4 sudo docker compose up --build
 
 </details>
