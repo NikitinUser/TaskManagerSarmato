@@ -18,7 +18,7 @@ class TaskDTO implements ResponseDataInterface
 
     public int $planeCompliteDate;
 
-    public ?int $status = null;
+    public ?bool $isComplite = null;
 
     public int $userId;
 }

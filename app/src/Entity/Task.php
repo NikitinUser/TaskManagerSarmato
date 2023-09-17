@@ -8,9 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
-    public const TASK_ACTIVE = 0;
-    public const TASK_DONE = 1;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -32,7 +29,7 @@ class Task
     private int $planeCompliteDate;
 
     #[ORM\Column]
-    private int $status = self::TASK_ACTIVE;
+    private bool $isComplite = false;
 
     #[ORM\Column]
     private int $userId;
@@ -102,14 +99,14 @@ class Task
         return $this;
     }
 
-    public function getStatus(): int
+    public function getIsComplite(): bool
     {
-        return $this->status;
+        return $this->isComplite;
     }
 
-    public function setStatus(int $status): static
+    public function setIsComplite(bool $isComplite): static
     {
-        $this->status = $status;
+        $this->isComplite = $isComplite;
 
         return $this;
     }

@@ -96,7 +96,7 @@ class TaskService
             throw new \RuntimeException(self::NOT_EXIST);
         }
 
-        $task->setStatus(Task::TASK_DONE)
+        $task->setIsComplite(true)
             ->setUpdatedAt(time());
 
         return $this->taskRepository->update($task);
