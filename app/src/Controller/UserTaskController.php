@@ -32,7 +32,7 @@ class UserTaskController extends AbstractController
             $tasks = $this->taskService->getAllTasksByUserId($userId);
             $this->httpResponseDTO->data = TaskMapper::mapFromArrayEntities($tasks);
         } catch (\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
@@ -49,7 +49,7 @@ class UserTaskController extends AbstractController
             $task = $this->taskService->getUserTask($userId, $id);
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
@@ -64,7 +64,7 @@ class UserTaskController extends AbstractController
             $taskValidation = new CreateTaskRequest($validator);
             $taskValidation->validate($taskData);
         } catch(\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_BAD_REQUEST;
             return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
         }
@@ -74,7 +74,7 @@ class UserTaskController extends AbstractController
             $task = $this->taskService->createTask($userId, $taskData);
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
@@ -89,7 +89,7 @@ class UserTaskController extends AbstractController
             $taskValidation = new UpdateTaskRequest($validator);
             $taskValidation->validate($taskData);
         } catch(\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_BAD_REQUEST;
             return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
         }
@@ -99,7 +99,7 @@ class UserTaskController extends AbstractController
             $task = $this->taskService->updateTask($userId, $taskData);
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
@@ -113,7 +113,7 @@ class UserTaskController extends AbstractController
             $jsonRequest = json_decode($request->getContent(), true);
             $id = (int)$jsonRequest["id"];
         } catch(\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_BAD_REQUEST;
             return $this->json($this->httpResponseDTO, $this->httpResponseDTO->responseCode);
         }
@@ -123,7 +123,7 @@ class UserTaskController extends AbstractController
             $task = $this->taskService->doneTask($userId, $id);
             $this->httpResponseDTO->data = TaskMapper::mapFromEntity($task);
         } catch (\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
@@ -139,7 +139,7 @@ class UserTaskController extends AbstractController
             $userId = $this->getUser()?->getId();
             $this->taskService->deleteTask($userId, $id);
         } catch (\Throwable $t) {
-            $this->httpResponseDTO->error = $t->getMessage();
+            $this->httpResponseDTO->message = $t->getMessage();
             $this->httpResponseDTO->responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
         }
 
