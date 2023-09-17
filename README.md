@@ -60,6 +60,65 @@ Test task to the Sarmato company
 
 host - http://127.0.0.1:7777
 
+## Task
+
+### fields
+
+#### id
+* type: integer
+* nullable: false
+* description: unique identifier of task
+
+#### title
+* type: string
+* max length: 255 in database, 127 in API (because there may be multibyte strings)
+* min length: 0 in database, 1 in API
+* validation regex pattern: '/^[A-Za-z А-Яа-яЁё 0-9]+$/u'
+* nullable: false
+* description: title of task
+
+#### description
+* type: string
+* max length: 5000 in database, 2500 in API (because there may be multibyte strings)
+* min length: 0 in database, 1 in API
+* validation regex pattern: '/^[A-Za-z А-Яа-яЁё 0-9]+$/u'
+* nullable: false
+* description: text body for task
+
+#### createdAt
+* type: integer
+* max length: 10
+* min length: 10
+* nullable: false
+* default: current server date (by unixtime)
+* description: date of creating tesk, integer because is unixtime for simplicity
+
+#### updatedAt
+* type: integer
+* max length: 10
+* min length: 10
+* nullable: true
+* default: null
+* description: date of updating task, integer because is unixtime for simplicity
+
+#### planeCompleteDate
+* type: integer
+* max length: 10
+* min length: 10
+* nullable: false
+* description: the date when the user plans to complete the task, integer because is unixtime for simplicity
+
+#### isComlite
+* type: bool
+* nullable: false
+* default: false
+* description: the mark on the completion of the task: false - the task is active, true - the task is completed.
+
+#### userId
+* type: integer
+* nullable: false
+* description: unique identifier of user who own a task
+
 ## Get token `/api/login_check` [POST]
 
 The `/api/login_check` method is used to authenticate the user. It allows you to verify user credentials and get an JWT token.
@@ -100,7 +159,22 @@ Example:
 }
 ```
 
+#### Unauthorized (401)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "code": 401,
+    "message": "Invalid credentials."
+}
+```
+
 ## Get all user tasks `/api/task/all` [GET]
+
+The `/api/task/all` method is used to getting all tasks for current user.
 
 ### HTTP-запрос
 
@@ -111,7 +185,7 @@ Example:
 
 ### Responses
 
-1. `error` (string or null)
+1. `message` (string or null)
 2. `data` (array or null)
 
 #### Success (200)
@@ -122,7 +196,7 @@ Example:
 
 ```json
 {
-    "error": null,
+    "message": null,
     "data": [
         {
             "id": 1,
@@ -130,11 +204,12 @@ Example:
             "description": "test1",
             "createdAt": 1694921959,
             "updatedAt": null,
-            "planeCompliteDate": 1700170901,
-            "status": 0,
+            "planeCompleteDate": 1700170901,
+            "isComplete": false,
             "userId": 1
         }
-    ]
+    ],
+    "responseCode": 200
 }
 ```
 
@@ -146,13 +221,29 @@ Example:
 
 ```json
 {
-    "error": "text",
-    "data": null
+    "message": "text",
+    "data": null,
+    "responseCode": 400 // 500
+}
+```
+
+#### Unauthorized (401)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "code": 401,
+    "message": "Invalid credentials."
 }
 ```
 
 
 ## Get task by id `/api/task` [GET]
+
+The `/api/task` method is used to getting task for current user by task id.
 
 ### HTTP-запрос
 
@@ -169,7 +260,7 @@ Example:
 
 ### Responses
 
-1. `error` (string or null)
+1. `message` (string or null)
 2. `data` (object or null)
 
 #### Success (200)
@@ -180,7 +271,7 @@ Example:
 
 ```json
 {
-    "error": null,
+    "message": null,
     "data":
         {
             "id": 1,
@@ -188,11 +279,11 @@ Example:
             "description": "test1",
             "createdAt": 1694921959,
             "updatedAt": null,
-            "planeCompliteDate": 1700170901,
-            "status": 0,
+            "planeCompleteDate": 1700170901,
+            "isComplete": false,
             "userId": 1
-        }
-}
+        },
+    "responseCode": 200
 ```
 
 #### BAD REQUEST (400), SERVER ERROR (500)
@@ -203,13 +294,29 @@ Example:
 
 ```json
 {
-    "error": "text",
-    "data": null
+    "message": "text",
+    "data": null,
+    "responseCode": 400 // 500
+}
+```
+
+#### Unauthorized (401)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "code": 401,
+    "message": "Invalid credentials."
 }
 ```
 
 
 ## Create task `/api/task` [POST]
+
+The `/api/task/all` method is used to creating a new task for current user.
 
 ### HTTP-запрос
 
@@ -222,9 +329,9 @@ Example:
 
 - **Required:** True
 
-1. `title` (string, max: 255, min: 1)
-2. `description` (string, max: 2500, min: 1)
-3. `planeCompliteDate` (int, max: 10, min: 10) - Planned task completion date (in UNIX timestamp format)
+1. `title` (string, max: 127, min: 1, allow symbols: A-Za-z А-Яа-яЁё 0-9)
+2. `description` (string, max: 2500, min: 1, allow symbols: A-Za-z А-Яа-яЁё 0-9)
+3. `planeCompleteDate` (integer, max: 10, min: 10) - Planned task completion date (in UNIX timestamp format)
 
 Example:
 
@@ -232,13 +339,13 @@ Example:
 {
     "title": "test1",
     "description": "test1",
-    "planeCompliteDate": 1700170901
+    "planeCompleteDate": 1700170901
 }
 ```
 
 ### Responses
 
-1. `error` (string or null)
+1. `message` (string or null)
 2. `data` (object or null)
 
 #### Success (200)
@@ -249,7 +356,7 @@ Example:
 
 ```json
 {
-    "error": null,
+    "message": null,
     "data":
         {
             "id": 1,
@@ -257,10 +364,11 @@ Example:
             "description": "test1",
             "createdAt": 1694921959,
             "updatedAt": null,
-            "planeCompliteDate": 1700170901,
-            "status": 0,
+            "planeCompleteDate": 1700170901,
+            "isComplete": false,
             "userId": 1
-        }
+        },
+    "responseCode": 200
 }
 ```
 
@@ -272,13 +380,29 @@ Example:
 
 ```json
 {
-    "error": "text",
-    "data": null
+    "message": "text",
+    "data": null,
+    "responseCode": 400 // 500
+}
+```
+
+#### Unauthorized (401)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "code": 401,
+    "message": "Invalid credentials."
 }
 ```
 
 
 ## Update task `/api/task` [PATCH]
+
+The `/api/task` method is used to update fields title, description, planeCompleteDate in task.
 
 ### HTTP-запрос
 
@@ -291,10 +415,10 @@ Example:
 
 - **Required:** True
 
-1. `id` (int, min: 1)
-2. `title` (string, max: 255, min: 1)
-3. `description` (string, max: 2500, min: 1)
-4. `planeCompliteDate` (int, max: 10, min: 10) - Planned task completion date (in UNIX timestamp format)
+1. `id` (integer, min: 1)
+2. `title` (string, max: 255, min: 1, allow symbols: A-Za-z А-Яа-яЁё 0-9)
+3. `description` (string, max: 2500, min: 1, allow symbols: A-Za-z А-Яа-яЁё 0-9)
+4. `planeCompleteDate` (integer, max: 10, min: 10) - Planned task completion date (in UNIX timestamp format)
 
 Example:
 
@@ -303,13 +427,13 @@ Example:
     "id": 2,
     "title": "test2",
     "description": "test2 test3 test4",
-    "planeCompliteDate": 1700170902
+    "planeCompleteDate": 1700170902
 }
 ```
 
 ### Responses
 
-1. `error` (string or null)
+1. `message` (string or null)
 2. `data` (object or null)
 
 #### Success (200)
@@ -320,7 +444,7 @@ Example:
 
 ```json
 {
-    "error": null,
+    "message": null,
     "data":
         {
             "id": 1,
@@ -328,10 +452,11 @@ Example:
             "description": "test1",
             "createdAt": 1694921959,
             "updatedAt": null,
-            "planeCompliteDate": 1700170901,
-            "status": 0,
+            "planeCompleteDate": 1700170901,
+            "isComplete": false,
             "userId": 1
-        }
+        },
+    "responseCode": 200
 }
 ```
 
@@ -343,12 +468,28 @@ Example:
 
 ```json
 {
-    "error": "text",
-    "data": null
+    "message": "text",
+    "data": null,
+    "responseCode": 400 // 500
+}
+```
+
+#### Unauthorized (401)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "code": 401,
+    "message": "Invalid credentials."
 }
 ```
 
 ## Done task `/api/task/done` [PATCH]
+
+The `/api/task/done` method is used to mark task as complete.
 
 ### HTTP-запрос
 
@@ -361,7 +502,7 @@ Example:
 
 - **Required:** True
 
-1. `id` (int, min: 1)
+1. `id` (integer, min: 1)
 
 Example:
 
@@ -373,7 +514,7 @@ Example:
 
 ### Responses
 
-1. `error` (string or null)
+1. `message` (string or null)
 2. `data` (object or null)
 
 #### Success (200)
@@ -384,7 +525,7 @@ Example:
 
 ```json
 {
-    "error": null,
+    "message": null,
     "data":
         {
             "id": 1,
@@ -392,10 +533,11 @@ Example:
             "description": "test1",
             "createdAt": 1694921959,
             "updatedAt": null,
-            "planeCompliteDate": 1700170901,
-            "status": 1,
+            "planeCompleteDate": 1700170901,
+            "isComplete": true,
             "userId": 1
-        }
+        },
+    "responseCode": 200
 }
 ```
 
@@ -407,13 +549,29 @@ Example:
 
 ```json
 {
-    "error": "text",
-    "data": null
+    "message": "text",
+    "data": null,
+    "responseCode": 400 // 500
+}
+```
+
+#### Unauthorized (401)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "code": 401,
+    "message": "Invalid credentials."
 }
 ```
 
 
 ## Delete task `/api/task` [DELETE]
+
+The `/api/task` method is used to deleting task by id for current user.
 
 ### HTTP-запрос
 
@@ -430,7 +588,7 @@ Example:
 
 ### Responses
 
-1. `error` (string or null)
+1. `message` (string or null)
 2. `data` (object or null)
 
 #### Success (200)
@@ -441,8 +599,9 @@ Example:
 
 ```json
 {
-    "error": null,
-    "data": null
+    "message": null,
+    "data": null,
+    "responseCode": 200
 }
 ```
 
@@ -454,8 +613,22 @@ Example:
 
 ```json
 {
-    "error": "text",
-    "data": null
+    "message": "text",
+    "data": null,
+    "responseCode": 400 // 500
+}
+```
+
+#### Unauthorized (401)
+
+- **Content type:** application/json
+
+Example:
+
+```json
+{
+    "code": 401,
+    "message": "Invalid credentials."
 }
 ```
 
