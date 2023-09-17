@@ -58,9 +58,11 @@ Test task to the Sarmato company
                     type: object
                     properties:
                     error:
-                        type: null
+                        type: string
+                        nullable: true
                     data:
                         type: array
+                        nullable: true
                         items:
                         type: object
                         properties:
@@ -91,9 +93,66 @@ Test task to the Sarmato company
             500:
             description: Внутренняя ошибка сервера
 
+
 </details>
 
 
 <details>
     <summary><h3>Запуск проекта в docker</h3></summary>
 </details>
+
+```yaml
+openapi: 3.0.0
+info:
+title: Запрос списка задач
+description: Получение списка задач для пользователя
+version: 1.0.0
+servers:
+- url: http://127.0.0.1:7777
+paths:
+/api/task/all:
+    get:
+    summary: Получить список задач
+    responses:
+        200:
+        description: Успешный запрос
+        content:
+            application/json:
+            schema:
+                type: object
+                properties:
+                error:
+                    type: string
+                    nullable: true
+                data:
+                    type: array
+                    nullable: true
+                    items:
+                    type: object
+                    properties:
+                        id:
+                        type: integer
+                        description: Уникальный идентификатор задачи
+                        title:
+                        type: string
+                        description: Заголовок задачи
+                        description:
+                        type: string
+                        description: Описание задачи
+                        createdAt:
+                        type: integer
+                        description: Дата создания задачи (в формате UNIX timestamp)
+                        updatedAt:
+                        type: integer
+                        description: Дата последнего обновления задачи (в формате UNIX timestamp) или null
+                        planeCompliteDate:
+                        type: integer
+                        description: Планируемая дата завершения задачи (в формате UNIX timestamp)
+                        status:
+                        type: integer
+                        description: Статус задачи (0 - в процессе, 1 - завершена и т. д.)
+                        userId:
+                        type: integer
+                        description: Идентификатор пользователя, связанного с задачей
+        500:
+        description: Внутренняя ошибка сервера
