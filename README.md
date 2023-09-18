@@ -45,22 +45,23 @@ Test task to the Sarmato company
 
     4 sudo docker compose up --build
 
-    5 cd ../app
+    5 open a new tab in current terminal
 
-    6 composer install
+    6 cd ../app
+
+    7 composer install
 
     if you have docker desktop:
-    7 open docker desktop, open project container, click to tms_php, select Termenal
 
-    8 php bin/console doctrine:migrations:migrate
+    8 open docker desktop, open project container, click to tms_php, select Termenal
 
-    9 php bin/console doctrine:fixtures:load (select yes)
+    9 php bin/console doctrine:migrations:migrate
 
-    10 php bin/console lexik:jwt:generate-keypair
+    10 php bin/console doctrine:fixtures:load (select yes)
+
+    11 php bin/console lexik:jwt:generate-keypair
 
     else:
-
-    7 open a new tab in current terminal
 
     8 cd ../docker
 
