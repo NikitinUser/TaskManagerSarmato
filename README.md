@@ -50,24 +50,27 @@ Test task to the Sarmato company
     6 composer install
 
     if you have docker desktop:
+    7 open docker desktop, open project container, click to tms_php, select Termenal
 
-    7 php bin/console doctrine:migrations:migrate (docker desktop in tms_php)
+    8 php bin/console doctrine:migrations:migrate
 
-    8 php bin/console doctrine:fixtures:load (docker desktop in tms_php)
+    9 php bin/console doctrine:fixtures:load (select yes)
 
-    9 php bin/console lexik:jwt:generate-keypair (docker desktop in tms_php)
+    10 php bin/console lexik:jwt:generate-keypair
 
     else:
 
-    7 cd ../docker
+    7 open a new tab in current terminal
 
-    8 sudo docker exec -itu root tms_php bash
+    8 cd ../docker
 
-    9 php bin/console doctrine:migrations:migrate
+    9 sudo docker exec -itu root tms_php bash
 
-    10 php bin/console doctrine:fixtures:load
+    10 php bin/console doctrine:migrations:migrate
 
-    11 php bin/console lexik:jwt:generate-keypair
+    11 php bin/console doctrine:fixtures:load (select yes)
+
+    12 php bin/console lexik:jwt:generate-keypair
 
 </details>
 
